@@ -1,0 +1,75 @@
+﻿@page
+@model Aplicatia_2.Pages.Patients.CreateModel
+
+@{ ViewData["Title"] = "Create"; }
+
+<h1>Create</h1>
+
+<h4>Patient</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Patient.PatientFirstName" class="control-label"></label>
+                <input asp-for="Patient.PatientFirstName" class="form-control" />
+                <span asp-validation-for="Patient.PatientFirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Patient.PatientLastName" class="control-label"></label>
+                <input asp-for="Patient.PatientLastName" class="form-control" />
+                <span asp-validation-for="Patient.PatientLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Patient.Disease" class="control-label"></label>
+                <input asp-for="Patient.Disease" class="form-control" />
+                <span asp-validation-for="Patient.Disease" class="text-danger"></span>
+            </div>
+            <label asp-for="Patient.DoctorID" class="control-label">Doctor First Name</label>
+            <select asp-for="Patient.DoctorID" class="form-control" asp-items="ViewBag.DoctorID">
+            </select>
+            <span asp-validation-for="Patient.DoctorID" class="text-danger"></span>
+            <label asp-for="Patient.DoctorID" class="control-label">Doctor Last Name</label>
+            <select asp-for="Patient.DoctorID" class="form-control" asp-items="ViewBag.DoctorID">
+            </select>
+            <span asp-validation-for="Patient.DoctorID" class="text-danger"></span>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{ int cnt = 0;
+                                            foreach (var tre in Model.AssignedTreatmentDataList)
+                                            {
+                                                if (cnt++ % 3 == 0)
+                                                {
+                            @:</tr><tr>
+                            }
+            @:<td>
+                <input type="checkbox"
+                       name="selectedTreatments"
+                       value="@tre.TreatmentID"
+                       @(Html.Raw(tre.Assigned ? "checked=\"checked\"" : "")) />
+                                @tre.TreatmentID @: @tre.Name
+                            @:</td>
+                        }
+        @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-page="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
